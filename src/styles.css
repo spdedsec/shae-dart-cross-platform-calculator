@@ -1,0 +1,437 @@
+/* ==========================================================================
+   SHAE Dart Cross-Platform Calculator — Stylesheet
+   Aesthetic: SHAE Field Manual × Apple-like Brutalism
+   Design Rules: Strict 0px Border Radius, Hairline 1px Borders,
+   Warm Paper Ground, Ink Text, Oxide Signal, Zero Radius, No Shadows
+   Copyright (c) 2026 spdedsec <legendsatya7272@gmail.com>
+   License: MIT
+   ========================================================================== */
+
+/* ─── Typography imports (SHAE type palette) ────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root {
+    /* Palette */
+    --paper: #F2EEE5;
+    --ink: #191712;
+    --oxide: #B3341B;
+    --oxide-dark: #8f2a15;
+
+    /* Derived hairlines */
+    --border-hairline: rgba(25, 23, 18, 0.35);
+    --border-strong: var(--ink);
+
+    /* Typography */
+    --font-display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+    --font-body: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', 'Menlo', 'Consolas', monospace;
+
+    /* Layout */
+    --max-container: 1280px;
+    --spacing-base: 4px;
+    --touch-target: 44px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border-radius: 0 !important; /* SHAE: strict zero radius */
+}
+
+html, body {
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-x: hidden; /* no horizontal overflow */
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Motion system (SHAE: 140–240ms, transform/opacity only) ───────── */
+.motion {
+    transition: background 160ms ease, border-color 160ms ease, color 160ms ease,
+                transform 160ms ease, opacity 160ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .motion,
+    * {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+    :root {
+        --border-hairline: rgba(25, 23, 18, 0.6);
+    }
+}
+
+/* ─── Focus rings (SHAE: visible oxide focus ring) ──────────────────── */
+:focus-visible {
+    outline: 2px solid var(--oxide);
+    outline-offset: 3px;
+}
+
+/* suppress outline where we manage focus ourselves */
+.key:focus-visible,
+.window-ctrl-btn:focus-visible,
+.workspace-run-btn:focus-visible,
+footer-link:focus-visible {
+    outline: 2px solid var(--oxide);
+    outline-offset: 2px;
+}
+
+/* ─── App shell ─────────────────────────────────────────────────────── */
+.app-wrapper {
+    max-width: var(--max-container);
+    margin: 0 auto;
+    padding: 24px 16px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.telemetry-header {
+    border: 1px solid var(--border-hairline);
+    background: rgba(25, 23, 18, 0.06);
+    padding: 12px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.brand-section {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.brand-badge {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-size: 11px;
+    padding: 2px 8px;
+    text-transform: uppercase;
+}
+
+.brand-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.telemetry-stats {
+    display: flex;
+    gap: 20px;
+    font-size: 11px;
+    color: rgba(25, 23, 18, 0.55);
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.led-indicator {
+    width: 6px;
+    height: 6px;
+    background-color: var(--ink);
+    display: inline-block;
+}
+
+.led-indicator.led-oxide {
+    background-color: var(--oxide);
+}
+
+/* ─── Main viewport ────────────────────────────────────────────────── */
+.main-viewport {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+}
+
+.calculator-window {
+    width: 100%;
+    max-width: 420px;
+    border: 1px solid var(--border-hairline);
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+}
+
+/* ─── Window chrome ────────────────────────────────────────────────── */
+.window-titlebar {
+    background: rgba(25, 23, 18, 0.06);
+    border-bottom: 1px solid var(--border-hairline);
+    padding: 8px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+}
+
+.window-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(25, 23, 18, 0.55);
+    font-weight: 500;
+}
+
+.window-controls {
+    display: flex;
+    gap: 6px;
+}
+
+.window-ctrl-btn {
+    background: transparent;
+    border: 1px solid var(--border-hairline);
+    color: rgba(25, 23, 18, 0.55);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.window-ctrl-btn:hover {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper);
+}
+
+/* ─── Display unit ─────────────────────────────────────────────────── */
+.display-unit {
+    background: var(--ink);
+    color: var(--paper);
+    border-bottom: 1px solid var(--border-hairline);
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.annunciator-bar {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: rgba(242, 238, 229, 0.55);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.annunciator-item {
+    font-family: var(--font-mono);
+    font-weight: 500;
+}
+
+.secondary-display {
+    min-height: 18px;
+    font-size: 13px;
+    color: rgba(242, 238, 229, 0.55);
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: var(--font-body);
+    font-weight: 400;
+}
+
+.primary-display {
+    font-family: var(--font-display);
+    font-size: 44px;
+    font-weight: 600;
+    text-align: right;
+    letter-spacing: -0.5px;
+    color: var(--paper);
+    word-break: break-all;
+    line-height: 1.1;
+    min-height: 48px; /* touch target height for display clarity */
+    font-variant-numeric: tabular-nums;
+}
+
+.primary-display.error-state {
+    color: var(--oxide);
+    font-size: 26px;
+}
+
+/* ─── Keypad grid ──────────────────────────────────────────────────── */
+.keypad-container {
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.key-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+/* ─── Buttons ──────────────────────────────────────────────────────── */
+.key {
+    background: transparent;
+    border: 1px solid var(--border-strong);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 17px;
+    font-weight: 600;
+    min-height: var(--touch-target);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    outline: none; /* we manage focus-visible */
+    -webkit-tap-highlight-color: transparent;
+}
+
+.key:not(.key-equals):not(.key-op):hover {
+    background: rgba(25, 23, 18, 0.08);
+    border-color: var(--ink);
+}
+
+.key:not(.key-equals):not(.key-op):active {
+    background: rgba(25, 23, 18, 0.2);
+}
+
+.key-op {
+    color: var(--oxide);
+    border-color: var(--oxide);
+}
+
+.key-op:hover {
+    background: var(--oxide);
+    color: var(--paper);
+}
+
+.key-action {
+    color: var(--ink);
+}
+
+.key-action:hover {
+    background: rgba(25, 23, 18, 0.1);
+    border-color: var(--ink);
+}
+
+.key-equals {
+    background: var(--oxide);
+    color: var(--paper);
+    border-color: var(--oxide);
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.key-equals:hover {
+    background: var(--oxide-dark);
+    border-color: var(--oxide-dark);
+}
+
+.key-action:active {
+    background: rgba(25, 23, 18, 0.2);
+}
+
+.key-op:active {
+    background: var(--oxide-dark);
+}
+
+.key-zero {
+    grid-column: span 1;
+}
+
+/* ─── Responsive ──────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+    .calculator-window {
+        max-width: 100%;
+    }
+
+    .keypad-container {
+        padding: 10px;
+    }
+
+    .key-grid {
+        gap: 6px;
+    }
+
+    .key {
+        min-height: 52px; /* generous touch target on mobile */
+        font-size: 18px;
+    }
+
+    .primary-display {
+        font-size: 36px;
+        min-height: 44px;
+    }
+
+    .key-equals {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 320px) {
+    .app-wrapper {
+        padding: 12px 8px;
+    }
+    .primary-display {
+        font-size: 28px;
+    }
+}
+
+/* ─── Footer Telemetry ─────────────────────────────────────────────── */
+.footer-bar {
+    margin-top: 24px;
+    border-top: 1px solid var(--border-hairline);
+    padding-top: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: rgba(25, 23, 18, 0.55);
+    font-size: 11px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 16px;
+}
+
+.footer-link {
+    color: rgba(25, 23, 18, 0.55);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: 10px;
+}
+
+.footer-link:hover {
+    color: var(--ink);
+    text-decoration: underline;
+}
+
+/* Custom scrollbars (optional, if overflow content appears) */
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+::-webkit-scrollbar-track {
+    background: var(--paper);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--border-hairline);
+}
