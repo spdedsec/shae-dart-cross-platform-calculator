@@ -3,47 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHAE — Dart Calculator</title>
+    <meta name="color-scheme" content="light dark">
+    <meta name="description" content="Cross-Platform Calculator - Apple HIG design with light and dark mode">
+    <title>Calculator</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="app-wrapper">
         <!-- Telemetry Header -->
-        <header class="telemetry-header">
+        <header class="telemetry-header" role="banner">
             <div class="brand-section">
-                <span class="brand-badge">SHAE</span>
-                <span class="brand-title">Dart Calculator</span>
+                <span class="brand-badge">CALCULATOR</span>
+                <span class="brand-title">Apple HIG Studio</span>
             </div>
             <div class="telemetry-stats">
                 <div class="stat-item">
                     <span class="led-indicator"></span>
-                    <span>RUNTIME: WEB / DESKTOP</span>
-                </div>
-                <div class="stat-item">
-                    <span class="led-indicator led-oxide"></span>
-                    <span>ARCH: 0px RADIUS / 1px BORDERS</span>
+                    <span>ONLINE</span>
                 </div>
             </div>
         </header>
 
         <!-- Main Calculator Viewport -->
-        <main class="main-viewport">
-            <section class="calculator-window" aria-label="Calculator Device">
+        <main class="main-viewport" role="main">
+            <section class="calculator-window" aria-label="Apple Calculator">
                 <div class="window-titlebar">
-                    <span class="window-title">SYS://SHAE.DART.CALC</span>
                     <div class="window-controls">
-                        <button class="window-ctrl-btn" title="Inspect Object">?</button>
-                        <button class="window-ctrl-btn" title="Minimize">_</button>
-                        <button class="window-ctrl-btn" title="Maximize">□</button>
-                        <button class="window-ctrl-btn" title="Reset" id="btn-win-reset">✕</button>
+                        <button class="traffic-light traffic-close" title="Reset Calculator" id="btn-win-reset" aria-label="Close and reset"></button>
+                        <button class="traffic-light traffic-min" title="Minimize" aria-label="Minimize"></button>
+                        <button class="traffic-light traffic-max" title="Zoom" aria-label="Zoom"></button>
                     </div>
+                    <span class="window-title">Calculator</span>
+                    <div style="width: 52px;"></div>
                 </div>
 
                 <!-- Display Unit -->
-                <div class="display-unit">
+                <div class="display-unit" aria-live="polite">
                     <div class="annunciator-bar">
-                        <span class="annunciator-item" id="ann-mem">MEM: OFF</span>
+                        <span class="annunciator-item" id="ann-mem"></span>
                     </div>
                     <div class="secondary-display" id="sub-display">&nbsp;</div>
                     <div class="primary-display" id="main-display">0</div>
@@ -51,42 +49,40 @@
 
                 <!-- Keypad Surface -->
                 <div class="keypad-container">
-                    <div class="key-grid grid-main">
-                        <button class="key key-action" data-action="C">C</button>
-                        <button class="key key-action" data-action="Bk">⌫</button>
-                        <button class="key key-op" data-action="/">÷</button>
-                        <button class="key key-equals" data-action="=">=</button>
+                    <div class="key-grid" role="group" aria-label="Calculator keypad">
+                        <button class="key key-action" data-action="C" aria-label="Clear all">C</button>
+                        <button class="key key-action" data-action="+/-" aria-label="Toggle sign">&plusmn;</button>
+                        <button class="key key-action" data-action="Bk" aria-label="Delete last digit">&al;</button>
+                        <button class="key key-op" data-action="/" aria-label="Divide">&divide;</button>
 
                         <button class="key" data-digit="7">7</button>
                         <button class="key" data-digit="8">8</button>
                         <button class="key" data-digit="9">9</button>
-                        <button class="key key-op" data-action="*">×</button>
+                        <button class="key key-op" data-action="*" aria-label="Multiply">&times;</button>
 
                         <button class="key" data-digit="4">4</button>
                         <button class="key" data-digit="5">5</button>
                         <button class="key" data-digit="6">6</button>
-                        <button class="key key-op" data-action="−">−</button>
+                        <button class="key key-op" data-action="-" aria-label="Subtract">&minus;</button>
 
                         <button class="key" data-digit="1">1</button>
                         <button class="key" data-digit="2">2</button>
                         <button class="key" data-digit="3">3</button>
-                        <button class="key key-op" data-action="+">+</button>
+                        <button class="key key-op" data-action="+" aria-label="Add">&plus;</button>
 
-                        <button class="key" data-action="+/-">±</button>
                         <button class="key key-zero" data-digit="0">0</button>
                         <button class="key" data-action=".">.</button>
-                        <button class="key" data-action="=">=</button>
+                        <button class="key key-equals" data-action="=" aria-label="Equals">=</button>
                     </div>
                 </div>
             </section>
         </main>
 
-        <!-- Footer Telemetry -->
-        <footer class="footer-bar">
-            <div>SHAE Dart Architecture :: Release v0.1.0 :: MIT License</div>
+        <!-- Footer -->
+        <footer class="footer-bar" role="contentinfo">
+            <div>Apple Human Interface Guidelines &middot; Calculator</div>
             <div class="footer-links">
-                <a class="footer-link" href="https://github.com/spdedsec/shae-dart-cross-platform-calculator" target="_blank" rel="noopener">GitHub Repository</a>
-                <a class="footer-link" href="https://github.com/spdedsec/shae-dart-cross-platform-calculator/blob/main/README.md" target="_blank" rel="noopener">Documentation</a>
+                <a class="footer-link" href="https://github.com/spdedsec/shae-dart-cross-platform-calculator" target="_blank" rel="noopener">GitHub</a>
             </div>
         </footer>
     </div>

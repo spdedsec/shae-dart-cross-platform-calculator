@@ -1,437 +1,399 @@
-/* ==========================================================================
-   SHAE Dart Cross-Platform Calculator — Stylesheet
-   Aesthetic: SHAE Field Manual × Apple-like Brutalism
-   Design Rules: Strict 0px Border Radius, Hairline 1px Borders,
-   Warm Paper Ground, Ink Text, Oxide Signal, Zero Radius, No Shadows
-   Copyright (c) 2026 spdedsec <legendsatya7272@gmail.com>
-   License: MIT
-   ========================================================================== */
-
-/* ─── Typography imports (SHAE type palette) ────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap');
+/* Apple Human Interface Guidelines Design System */
+/* shae-dart-cross-platform-calculator */
 
 :root {
-    /* Palette */
-    --paper: #F2EEE5;
-    --ink: #191712;
-    --oxide: #B3341B;
-    --oxide-dark: #8f2a15;
+  color-scheme: light dark;
 
-    /* Derived hairlines */
-    --border-hairline: rgba(25, 23, 18, 0.35);
-    --border-strong: var(--ink);
+  /* Apple System Colors - Light Mode */
+  --system-blue: #007AFF;
+  --system-orange: #FF9500;
+  --system-orange-active: #CC7A00;
+  --system-red: #FF3B30;
+  --system-yellow: #FFCC00;
+  --system-green: #34C759;
 
-    /* Typography */
-    --font-display: 'Archivo', 'Helvetica Neue', Arial, sans-serif;
-    --font-body: 'Instrument Sans', 'Helvetica Neue', Arial, sans-serif;
-    --font-mono: 'JetBrains Mono', 'SF Mono', 'Menlo', 'Consolas', monospace;
+  /* Grays */
+  --system-gray: #8E8E93;
+  --system-gray2: #AEAEB2;
+  --system-gray3: #C7C7CC;
+  --system-gray4: #D1D1D6;
+  --system-gray5: #E5E5EA;
+  --system-gray6: #F2F2F7;
 
-    /* Layout */
-    --max-container: 1280px;
-    --spacing-base: 4px;
-    --touch-target: 44px;
+  /* Semantic Layout */
+  --system-bg: #F2F2F7;
+  --system-calc-bg: rgba(255, 255, 255, 0.85);
+  --system-calc-border: rgba(0, 0, 0, 0.12);
+  --system-display-text: #000000;
+  --system-sub-display-text: rgba(60, 60, 67, 0.60);
+
+  /* Key Colors (Light) */
+  --key-digit-bg: #FFFFFF;
+  --key-digit-text: #000000;
+  --key-digit-hover: #F2F2F7;
+  --key-digit-active: #E5E5EA;
+
+  --key-func-bg: #D1D1D6;
+  --key-func-text: #000000;
+  --key-func-hover: #C7C7CC;
+
+  --key-op-bg: #FF9500;
+  --key-op-text: #FFFFFF;
+  --key-op-hover: #E08500;
+  --key-op-active: #FFFFFF;
+  --key-op-active-text: #FF9500;
+
+  /* Typography */
+  --font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "SF Pro", system-ui, sans-serif;
+  --font-mono: -apple-system-ui-monospaced, "SF Mono", Menlo, Monaco, monospace;
+
+  /* Shadows */
+  --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-calc: 0 20px 40px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.05);
+
+  /* Spacing & Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 24px;
+  --radius-pill: 9999px;
+
+  /* Motion */
+  --spring: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 150ms;
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    border-radius: 0 !important; /* SHAE: strict zero radius */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --system-orange: #FF9F0A;
+    --system-orange-active: #CC7E08;
+
+    --system-bg: #000000;
+    --system-calc-bg: rgba(28, 28, 30, 0.88);
+    --system-calc-border: rgba(255, 255, 255, 0.14);
+    --system-display-text: #FFFFFF;
+    --system-sub-display-text: rgba(235, 235, 245, 0.60);
+
+    /* Key Colors (Dark - classic Apple Calculator) */
+    --key-digit-bg: #333333;
+    --key-digit-text: #FFFFFF;
+    --key-digit-hover: #404040;
+    --key-digit-active: #555555;
+
+    --key-func-bg: #A5A5A5;
+    --key-func-text: #000000;
+    --key-func-hover: #B8B8B8;
+
+    --key-op-bg: #FF9F0A;
+    --key-op-text: #FFFFFF;
+    --key-op-hover: #FFAF33;
+    --key-op-active: #FFFFFF;
+    --key-op-active-text: #FF9F0A;
+
+    --shadow-calc: 0 25px 50px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  }
 }
 
-html, body {
-    width: 100%;
-    min-height: 100vh;
-    background-color: var(--paper);
-    color: var(--ink);
-    font-family: var(--font-body);
-    font-size: 14px;
-    line-height: 1.5;
-    overflow-x: hidden; /* no horizontal overflow */
-    -webkit-font-smoothing: antialiased;
+/* Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* ─── Motion system (SHAE: 140–240ms, transform/opacity only) ───────── */
-.motion {
-    transition: background 160ms ease, border-color 160ms ease, color 160ms ease,
-                transform 160ms ease, opacity 160ms ease;
+body {
+  font-family: var(--font-family);
+  background-color: var(--system-bg);
+  color: var(--system-display-text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .motion,
-    * {
-        transition: none !important;
-        animation: none !important;
-    }
-}
-
-@media (prefers-reduced-transparency: reduce) {
-    :root {
-        --border-hairline: rgba(25, 23, 18, 0.6);
-    }
-}
-
-/* ─── Focus rings (SHAE: visible oxide focus ring) ──────────────────── */
-:focus-visible {
-    outline: 2px solid var(--oxide);
-    outline-offset: 3px;
-}
-
-/* suppress outline where we manage focus ourselves */
-.key:focus-visible,
-.window-ctrl-btn:focus-visible,
-.workspace-run-btn:focus-visible,
-footer-link:focus-visible {
-    outline: 2px solid var(--oxide);
-    outline-offset: 2px;
-}
-
-/* ─── App shell ─────────────────────────────────────────────────────── */
 .app-wrapper {
-    max-width: var(--max-container);
-    margin: 0 auto;
-    padding: 24px 16px;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
+/* Header */
 .telemetry-header {
-    border: 1px solid var(--border-hairline);
-    background: rgba(25, 23, 18, 0.06);
-    padding: 12px 18px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
+  height: 56px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  .telemetry-header {
+    background: rgba(28, 28, 30, 0.6);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
 }
 
 .brand-section {
-    display: flex;
-    align-items: center;
-    gap: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .brand-badge {
-    background: var(--ink);
-    color: var(--paper);
-    font-family: var(--font-display);
-    font-weight: 700;
-    letter-spacing: 2px;
-    font-size: 11px;
-    padding: 2px 8px;
-    text-transform: uppercase;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  background: var(--system-blue);
+  color: #FFFFFF;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.04em;
 }
 
 .brand-title {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 15px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .telemetry-stats {
-    display: flex;
-    gap: 20px;
-    font-size: 11px;
-    color: rgba(25, 23, 18, 0.55);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+  color: var(--system-sub-display-text);
 }
 
 .stat-item {
-    display: flex;
-    align-items: center;
-    gap: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .led-indicator {
-    width: 6px;
-    height: 6px;
-    background-color: var(--ink);
-    display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--system-green);
+  box-shadow: 0 0 6px var(--system-green);
 }
 
-.led-indicator.led-oxide {
-    background-color: var(--oxide);
-}
-
-/* ─── Main viewport ────────────────────────────────────────────────── */
+/* Main Viewport */
 .main-viewport {
-    display: flex;
-    justify-content: center;
-    flex: 1;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
 }
 
+/* Apple Calculator Window */
 .calculator-window {
-    width: 100%;
-    max-width: 420px;
-    border: 1px solid var(--border-hairline);
-    background: var(--paper);
-    display: flex;
-    flex-direction: column;
+  width: 330px;
+  background: var(--system-calc-bg);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--system-calc-border);
+  box-shadow: var(--shadow-calc);
+  overflow: hidden;
+  padding-bottom: 20px;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-/* ─── Window chrome ────────────────────────────────────────────────── */
+/* macOS Window Titlebar with Traffic Lights */
 .window-titlebar {
-    background: rgba(25, 23, 18, 0.06);
-    border-bottom: 1px solid var(--border-hairline);
-    padding: 8px 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    user-select: none;
-}
-
-.window-title {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: rgba(25, 23, 18, 0.55);
-    font-weight: 500;
+  height: 38px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(120, 120, 128, 0.12);
 }
 
 .window-controls {
-    display: flex;
-    gap: 6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.window-ctrl-btn {
-    background: transparent;
-    border: 1px solid var(--border-hairline);
-    color: rgba(25, 23, 18, 0.55);
-    font-family: var(--font-mono);
-    font-size: 10px;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+.traffic-light {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity var(--duration-fast);
 }
 
-.window-ctrl-btn:hover {
-    background: var(--ink);
-    border-color: var(--ink);
-    color: var(--paper);
+.traffic-close { background: #FF5F56; border: 0.5px solid #E0443E; }
+.traffic-min { background: #FFBD2E; border: 0.5px solid #DEA123; }
+.traffic-max { background: #27C93F; border: 0.5px solid #1AAB29; }
+
+.traffic-light:hover {
+  opacity: 0.8;
 }
 
-/* ─── Display unit ─────────────────────────────────────────────────── */
+.window-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--system-sub-display-text);
+}
+
+/* Display Unit */
 .display-unit {
-    background: var(--ink);
-    color: var(--paper);
-    border-bottom: 1px solid var(--border-hairline);
-    padding: 16px 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  padding: 24px 20px 12px 20px;
+  text-align: right;
+  min-height: 110px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .annunciator-bar {
-    display: flex;
-    justify-content: space-between;
-    font-size: 10px;
-    color: rgba(242, 238, 229, 0.55);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-.annunciator-item {
-    font-family: var(--font-mono);
-    font-weight: 500;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--system-sub-display-text);
+  margin-bottom: 4px;
 }
 
 .secondary-display {
-    min-height: 18px;
-    font-size: 13px;
-    color: rgba(242, 238, 229, 0.55);
-    text-align: right;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-family: var(--font-body);
-    font-weight: 400;
+  font-family: var(--font-mono);
+  font-size: 15px;
+  color: var(--system-sub-display-text);
+  min-height: 20px;
+  letter-spacing: -0.01em;
 }
 
 .primary-display {
-    font-family: var(--font-display);
-    font-size: 44px;
-    font-weight: 600;
-    text-align: right;
-    letter-spacing: -0.5px;
-    color: var(--paper);
-    word-break: break-all;
-    line-height: 1.1;
-    min-height: 48px; /* touch target height for display clarity */
-    font-variant-numeric: tabular-nums;
+  font-size: 52px;
+  font-weight: 300;
+  color: var(--system-display-text);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .primary-display.error-state {
-    color: var(--oxide);
-    font-size: 26px;
+  color: var(--system-red);
 }
 
-/* ─── Keypad grid ──────────────────────────────────────────────────── */
+/* Keypad Grid */
 .keypad-container {
-    padding: 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  padding: 0 16px;
 }
 
 .key-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 8px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
 }
 
-/* ─── Buttons ──────────────────────────────────────────────────────── */
+/* Apple HIG Calculator Key */
 .key {
-    background: transparent;
-    border: 1px solid var(--border-strong);
-    color: var(--ink);
-    font-family: var(--font-mono);
-    font-size: 17px;
-    font-weight: 600;
-    min-height: var(--touch-target);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    user-select: none;
-    outline: none; /* we manage focus-visible */
-    -webkit-tap-highlight-color: transparent;
+  min-height: 58px;
+  min-width: 58px;
+  border-radius: var(--radius-pill);
+  border: none;
+  font-family: var(--font-family);
+  font-size: 24px;
+  font-weight: 400;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--duration-fast) var(--spring);
+  background: var(--key-digit-bg);
+  color: var(--key-digit-text);
+  box-shadow: var(--shadow-1);
 }
 
-.key:not(.key-equals):not(.key-op):hover {
-    background: rgba(25, 23, 18, 0.08);
-    border-color: var(--ink);
+.key:hover {
+  background: var(--key-digit-hover);
 }
 
-.key:not(.key-equals):not(.key-op):active {
-    background: rgba(25, 23, 18, 0.2);
+.key:active {
+  transform: scale(0.92);
+  background: var(--key-digit-active);
 }
 
-.key-op {
-    color: var(--oxide);
-    border-color: var(--oxide);
+.key:focus-visible {
+  outline: 2px solid var(--system-blue);
+  outline-offset: 2px;
 }
 
-.key-op:hover {
-    background: var(--oxide);
-    color: var(--paper);
-}
-
+/* Function keys (C, ⌫, ±) */
 .key-action {
-    color: var(--ink);
+  background: var(--key-func-bg);
+  color: var(--key-func-text);
+  font-size: 20px;
+  font-weight: 500;
 }
 
 .key-action:hover {
-    background: rgba(25, 23, 18, 0.1);
-    border-color: var(--ink);
+  background: var(--key-func-hover);
 }
 
-.key-equals {
-    background: var(--oxide);
-    color: var(--paper);
-    border-color: var(--oxide);
-    font-weight: 700;
-    font-size: 20px;
+/* Operators (÷, ×, −, +, =) */
+.key-op, .key-equals {
+  background: var(--key-op-bg);
+  color: var(--key-op-text);
+  font-size: 28px;
+  font-weight: 400;
 }
 
-.key-equals:hover {
-    background: var(--oxide-dark);
-    border-color: var(--oxide-dark);
+.key-op:hover, .key-equals:hover {
+  background: var(--key-op-hover);
 }
 
-.key-action:active {
-    background: rgba(25, 23, 18, 0.2);
+.key-op:active, .key-equals:active {
+  transform: scale(0.92);
 }
 
-.key-op:active {
-    background: var(--oxide-dark);
-}
-
+/* Double wide zero */
 .key-zero {
-    grid-column: span 1;
+  grid-column: span 2;
+  border-radius: var(--radius-pill);
+  justify-content: flex-start;
+  padding-left: 24px;
 }
 
-/* ─── Responsive ──────────────────────────────────────────────────── */
-@media (max-width: 480px) {
-    .calculator-window {
-        max-width: 100%;
-    }
-
-    .keypad-container {
-        padding: 10px;
-    }
-
-    .key-grid {
-        gap: 6px;
-    }
-
-    .key {
-        min-height: 52px; /* generous touch target on mobile */
-        font-size: 18px;
-    }
-
-    .primary-display {
-        font-size: 36px;
-        min-height: 44px;
-    }
-
-    .key-equals {
-        font-size: 22px;
-    }
-}
-
-@media (max-width: 320px) {
-    .app-wrapper {
-        padding: 12px 8px;
-    }
-    .primary-display {
-        font-size: 28px;
-    }
-}
-
-/* ─── Footer Telemetry ─────────────────────────────────────────────── */
+/* Footer */
 .footer-bar {
-    margin-top: 24px;
-    border-top: 1px solid var(--border-hairline);
-    padding-top: 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: rgba(25, 23, 18, 0.55);
-    font-size: 11px;
+  height: 48px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--system-sub-display-text);
+  border-top: 1px solid rgba(120, 120, 128, 0.12);
 }
 
 .footer-links {
-    display: flex;
-    gap: 16px;
+  display: flex;
+  gap: 16px;
 }
 
 .footer-link {
-    color: rgba(25, 23, 18, 0.55);
-    text-decoration: none;
-    font-family: var(--font-mono);
-    font-size: 10px;
+  color: var(--system-blue);
+  text-decoration: none;
 }
 
 .footer-link:hover {
-    color: var(--ink);
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
-/* Custom scrollbars (optional, if overflow content appears) */
-::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
-}
-::-webkit-scrollbar-track {
-    background: var(--paper);
-}
-::-webkit-scrollbar-thumb {
-    background: var(--border-hairline);
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }
